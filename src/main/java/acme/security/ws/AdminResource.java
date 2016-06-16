@@ -1,5 +1,6 @@
 package acme.security.ws;
 
+import acme.security.component.ACMEContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,15 @@ public class AdminResource {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminResource.class);
 
+    @Context
+    private ACMEContext context;
+
     @GET
     @RolesAllowed("ADMIN")
     public String message() {
-        logger.debug(String.format("Returning from Admin"));
+        logger.debug(String.format("Returning from Admin with logged user '%s' is admin? %s",
+                context.getUsername(),
+                context.isAdmin()));
         return "Admin";
     }
 
